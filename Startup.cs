@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using HortaIoT.Repository;
+using HortaIoT.Controllers;
+using uPLibrary.Networking.M2Mqtt;
 
 namespace HortaIoT
 {
@@ -23,6 +25,9 @@ namespace HortaIoT
             services.AddSingleton<IDbContext>(new DbContext(Configuration.GetConnectionString("Postgre")));
             services.AddSingleton<IDataRepository, DataRepository>();
             services.AddSingleton<ICultivationRepository, CultivationRepository>();
+            services.AddSingleton<MqttClient>(
+                new MqttClient(Configuration["MqttBroker:Url"], int.Parse(Configuration["MqttBroker:Port"]), true, null, null, MqttSslProtocols.None));
+            services.AddSingleton<MqttController>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

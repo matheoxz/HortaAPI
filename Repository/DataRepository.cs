@@ -18,6 +18,7 @@ namespace HortaIoT.Repository{
         {
             data.Received = DateTimeOffset.Now.ToUnixTimeSeconds();
             try{
+                
                 _db.Open();
                 using (var cmd = new NpgsqlCommand("INSERT INTO public.measurement_data "+
                 "(received, ph, ec, temperature, turbidity, illuminance, water_level)"+
